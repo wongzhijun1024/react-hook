@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // 全局变量配置
+        var STUDY_PREIOD_TIME = getStudyTime(); //所需学习时间
+        var nextBtn = window.document.getElementsByTagName("table")[0].getElementsByTagName("tbody")[0].firstChild.nextSibling.firstChild.firstChild.contentWindow.document.getElementById("w_code").contentWindow.document.getElementById("tdPlayerControl").firstChild.nextSibling.nextSibling.nextSibling;
+        var apiHandle = window.document.getElementsByTagName("table")[0].getElementsByTagName("tbody")[0].firstChild.nextSibling.firstChild.firstChild.contentWindow.document.getElementById("w_lms_content").contentWindow.apiHandle;
+
+        function startRun() {
+            // 当前学习时间
+            var nowTime = apiHandle.LMSGetValue("cmi.core.total_time");
+            if (Number(nowTime) >= STUDY_PREIOD_TIME) {
+                console.log("学习完成,准备下一章节...");
+                nextBtn.click();
+                STUDY_PREIOD_TIME = getStudyTime(); //所需学习时间
+                console.log(`本章需要学习时间${STUDY_PREIOD_TIME}秒`);
+            }
+        }
+        function getStudyTime() {
+            var str = window.document.getElementsByTagName("table")[0].getElementsByTagName("tbody")[0].firstChild.nextSibling.firstChild.firstChild.contentWindow.document.getElementById("w_lms_content").contentWindow.apiHandle.LMSGetValue("cmi.interactions.0.time");
+            return Number(str);
+        }
+        console.log(`自动学习脚本运行,本章需要学习时间${STUDY_PREIOD_TIME}秒`);
+        setInterval(startRun, 10000)
+
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
